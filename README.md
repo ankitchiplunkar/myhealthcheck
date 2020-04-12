@@ -6,7 +6,7 @@ Detect heart rates using a webcam. In the future, this can be overlayed onto vid
 ![alt text](https://raw.githubusercontent.com/ankitchiplunkar/myhealthcheck/master/static/demo_pic.png)
 
 ## Demo Video: 
-https://www.loom.com/share/e80812bd89754504b94b3d7aed97e77a
+https://www.loom.com/share/c185c4e4115d4e90a46d0d952361c6b8
 
 ## Demo website: 
 https://myhealthcheckapp.herokuapp.com/ 

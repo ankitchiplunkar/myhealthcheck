@@ -96,7 +96,6 @@ class HeartMonitor(object):
         else:
             cv2.putText(frame, "Calculating BPM...", self.loadingTextLocation,
                         self.font, self.fontScale, self.fontColor, self.lineType)
-        print(frame)
         return Image.fromarray(np.uint8(frame))
 
     def buildGauss(self, frame, levels):

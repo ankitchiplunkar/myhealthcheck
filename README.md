@@ -10,7 +10,9 @@ https://www.loom.com/share/c185c4e4115d4e90a46d0d952361c6b8
 
 ## Demo website: 
 https://myhealthcheckapp.herokuapp.com/ 
+
 Note: you might see other users
+Note: Works best with firefox
 
 ## Participants: 
 Ankit Chiplunkar : https://twitter.com/ankitchiplunkar 

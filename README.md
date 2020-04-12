@@ -3,6 +3,8 @@ We use Euler Video Magnification to detect slight changes in the video to predic
 
 Detect heart rates using a webcam. In the future, this can be overlayed onto video calls, etc to help in tele-medicine. Also, would be a useful product in the current Covid19 times.
 
+![alt text](https://raw.githubusercontent.com/ankitchiplunkar/myhealthcheck/master/static/demo_pic.png)
+
 ## Demo Video: 
 https://www.loom.com/share/e80812bd89754504b94b3d7aed97e77a
 

@@ -9,6 +9,8 @@ class HeartMonitor(object):
 
 
     def __init__(self):
+        self.i = 0
+
         # Webcam Parameters
         self.realWidth = 320
         self.realHeight = 240
@@ -53,10 +55,10 @@ class HeartMonitor(object):
         self.fourierTransformAvg = np.zeros((self.bufferSize))
 
     def apply_makeup(self, pil_image):
-        frame = np.array(pil_image) 
+        big_frame = np.array(pil_image)
+        frame = cv2.resize(big_frame, (self.realWidth, self.realHeight), interpolation = cv2.INTER_AREA)
         detectionFrame = frame[self.videoHeight//2:self.realHeight -
                            self.videoHeight//2, self.videoWidth//2:self.realWidth-self.videoWidth//2, :]
-        
         self.videoGauss[self.bufferIndex] = self.buildGauss(detectionFrame, self.levels+1)[self.levels]
         fourierTransform = np.fft.fft(self.videoGauss, axis=0)
 
@@ -65,13 +67,13 @@ class HeartMonitor(object):
 
         # Grab a Pulse
         if self.bufferIndex % self.bpmCalculationFrequency == 0:
-            i = i + 1
+            self.i += 1
             for buf in range(self.bufferSize):
-                fourierTransformAvg[buf] = np.real(fourierTransform[buf]).mean()
-            hz = frequencies[np.argmax(fourierTransformAvg)]
+                self.fourierTransformAvg[buf] = np.real(fourierTransform[buf]).mean()
+            hz = self.frequencies[np.argmax(self.fourierTransformAvg)]
             bpm = 60.0 * hz
-            bpmBuffer[self.bpmBufferIndex] = bpm
-            bpmBufferIndex = (self.bpmBufferIndex + 1) % self.bpmBufferSize
+            self.bpmBuffer[self.bpmBufferIndex] = bpm
+            self.bpmBufferIndex = (self.bpmBufferIndex + 1) % self.bpmBufferSize
 
         # Amplify
         filtered = np.real(np.fft.ifft(fourierTransform, axis=0))
@@ -88,14 +90,14 @@ class HeartMonitor(object):
             self.videoWidth//2:self.realWidth-self.videoWidth//2, :] = outputFrame
         cv2.rectangle(frame, (self.videoWidth//2, self.videoHeight//2), (self.realWidth -
                                                             self.videoWidth//2, self.realHeight-self.videoHeight//2), self.boxColor, self.boxWeight)
-        if i > bpmBufferSize:
-            cv2.putText(frame, "BPM: %d" % bpmBuffer.mean(),
+        if self.i > self.bpmBufferSize:
+            cv2.putText(frame, "BPM: %d" % self.bpmBuffer.mean(),
                         self.bpmTextLocation, self.font, self.fontScale, self.fontColor, self.lineType)
         else:
             cv2.putText(frame, "Calculating BPM...", self.loadingTextLocation,
                         self.font, self.fontScale, self.fontColor, self.lineType)
         print(frame)
-        return frame
+        return Image.fromarray(np.uint8(frame))
 
     def buildGauss(self, frame, levels):
             pyramid = [frame]

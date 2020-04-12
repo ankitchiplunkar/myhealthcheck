@@ -1,5 +1,5 @@
 from sys import stdout
-from makeup_artist import Makeup_artist
+from heart_monitor import HeartMonitor
 import logging
 from flask import Flask, render_template, Response
 from flask_socketio import SocketIO
@@ -12,7 +12,7 @@ app.logger.addHandler(logging.StreamHandler(stdout))
 app.config['SECRET_KEY'] = 'secret!'
 app.config['DEBUG'] = True
 socketio = SocketIO(app)
-camera = Camera(Makeup_artist())
+camera = Camera(HeartMonitor())
 
 
 @socketio.on('input image', namespace='/test')

@@ -1,0 +1,2 @@
+runtime: python37
+entrypoint: gunicorn -k eventlet -w 1 app:app --log-file=-

@@ -1,16 +1,26 @@
 # Webapp to check health of user
 We use Euler Video Magnification to detect slight changes in the video to predict approximate health metrics.  
 
-Inspired by: https://www.youtube.com/watch?v=EhZXDgG9oSk
+Detect heart rates using a webcam. In the future, this can be overlayed onto video calls, etc to help in tele-medicine. Also, would be a useful product in the current Covid19 times.
+
+## Demo: 
+https://www.loom.com/share/e80812bd89754504b94b3d7aed97e77a
+
+## Participants: 
+Ankit Chiplunkar : https://twitter.com/ankitchiplunkar 
+Animesh Singh : https://twitter.com/animeshsingh38
+
+
+## References: 
+1. https://www.youtube.com/watch?v=EhZXDgG9oSk 
+2. https://github.com/dxue2012/python-webcam-flask
 
 # Local Setup
 
-NOTE: The webapp currently only works locally on Firefow
+NOTE: The webapp currently only works locally on Firefox
 
 0. Clone and enter the repo on your local machine
 1. Create a virtual enviornment with `python3.7`
 2. Install the required dependencies `pip install -r requirements.txt`
 4. Run the webserver via `gunicorn -k eventlet -w 1 app:app --log-file=-`
 
-# Demo:
-Check out: https://myhealthcheck.uc.r.appspot.com/

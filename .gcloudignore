@@ -16,5 +16,6 @@ temp
 
 # Python pycache:
 __pycache__/
+**venv
 # Ignored by the build system
 /setup.cfg

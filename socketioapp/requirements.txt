@@ -1,0 +1,6 @@
+Flask
+Flask-SocketIO
+gunicorn
+opencv-python
+Pillow
+eventlet

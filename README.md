@@ -3,8 +3,12 @@ We use Euler Video Magnification to detect slight changes in the video to predic
 
 Detect heart rates using a webcam. In the future, this can be overlayed onto video calls, etc to help in tele-medicine. Also, would be a useful product in the current Covid19 times.
 
-## Demo: 
+## Demo Video: 
 https://www.loom.com/share/e80812bd89754504b94b3d7aed97e77a
+
+## Demo website: 
+https://myhealthcheckapp.herokuapp.com/ 
+Note: you might see other users
 
 ## Participants: 
 Ankit Chiplunkar : https://twitter.com/ankitchiplunkar 
@@ -24,3 +28,5 @@ NOTE: The webapp currently only works locally on Firefox
 2. Install the required dependencies `pip install -r requirements.txt`
 4. Run the webserver via `gunicorn -k eventlet -w 1 app:app --log-file=-`
 
+
+Note: https://stackoverflow.com/questions/49469764/how-to-use-opencv-with-heroku/51004957#51004957

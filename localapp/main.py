@@ -9,18 +9,23 @@ import cv2
 import sys
 
 # Helper Methods
+
+
 def buildGauss(frame, levels):
     pyramid = [frame]
     for level in range(levels):
         frame = cv2.pyrDown(frame)
         pyramid.append(frame)
     return pyramid
+
+
 def reconstructFrame(pyramid, index, levels):
     filteredFrame = pyramid[index]
     for level in range(levels):
         filteredFrame = cv2.pyrUp(filteredFrame)
     filteredFrame = filteredFrame[:videoHeight, :videoWidth]
     return filteredFrame
+
 
 # Webcam Parameters
 webcam = None
@@ -34,18 +39,18 @@ videoWidth = 160
 videoHeight = 120
 videoChannels = 3
 videoFrameRate = 15
-webcam.set(3, realWidth);
-webcam.set(4, realHeight);
+webcam.set(3, realWidth)
+webcam.set(4, realHeight)
 
 # Output Videos
-if len(sys.argv) != 2:
-    originalVideoFilename = "original.mov"
-    originalVideoWriter = cv2.VideoWriter()
-    originalVideoWriter.open(originalVideoFilename, cv2.VideoWriter_fourcc('j', 'p', 'e', 'g'), videoFrameRate, (realWidth, realHeight), True)
+# if len(sys.argv) != 2:
+#     originalVideoFilename = "original.mov"
+#     originalVideoWriter = cv2.VideoWriter()
+#     originalVideoWriter.open(originalVideoFilename, cv2.VideoWriter_fourcc('j', 'p', 'e', 'g'), videoFrameRate, (realWidth, realHeight), True)
 
-outputVideoFilename = "output.mov"
-outputVideoWriter = cv2.VideoWriter()
-outputVideoWriter.open(outputVideoFilename, cv2.VideoWriter_fourcc('j', 'p', 'e', 'g'), videoFrameRate, (realWidth, realHeight), True)
+# outputVideoFilename = "output.mov"
+# outputVideoWriter = cv2.VideoWriter()
+# outputVideoWriter.open(outputVideoFilename, cv2.VideoWriter_fourcc('j', 'p', 'e', 'g'), videoFrameRate, (realWidth, realHeight), True)
 
 # Color Magnification Parameters
 levels = 3
@@ -60,7 +65,7 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 loadingTextLocation = (20, 30)
 bpmTextLocation = (videoWidth//2 + 5, 30)
 fontScale = 1
-fontColor = (255,255,255)
+fontColor = (255, 255, 255)
 lineType = 2
 boxColor = (0, 255, 0)
 boxWeight = 3
@@ -68,7 +73,8 @@ boxWeight = 3
 # Initialize Gaussian Pyramid
 firstFrame = np.zeros((videoHeight, videoWidth, videoChannels))
 firstGauss = buildGauss(firstFrame, levels+1)[levels]
-videoGauss = np.zeros((bufferSize, firstGauss.shape[0], firstGauss.shape[1], videoChannels))
+videoGauss = np.zeros(
+    (bufferSize, firstGauss.shape[0], firstGauss.shape[1], videoChannels))
 fourierTransformAvg = np.zeros((bufferSize))
 
 # Bandpass Filter for Specified Frequencies
@@ -87,11 +93,12 @@ while (True):
     if ret == False:
         break
 
-    if len(sys.argv) != 2:
-        originalFrame = frame.copy()
-        originalVideoWriter.write(originalFrame)
+    # if len(sys.argv) != 2:
+    #     originalFrame = frame.copy()
+    #     originalVideoWriter.write(originalFrame)
 
-    detectionFrame = frame[videoHeight/2:realHeight-videoHeight/2, videoWidth/2:realWidth-videoWidth/2, :]
+    detectionFrame = frame[videoHeight//2:realHeight -
+                           videoHeight//2, videoWidth//2:realWidth-videoWidth//2, :]
 
     # Construct Gaussian Pyramid
     videoGauss[bufferIndex] = buildGauss(detectionFrame, levels+1)[levels]
@@ -121,14 +128,18 @@ while (True):
 
     bufferIndex = (bufferIndex + 1) % bufferSize
 
-    frame[videoHeight/2:realHeight-videoHeight/2, videoWidth/2:realWidth-videoWidth/2, :] = outputFrame
-    cv2.rectangle(frame, (videoWidth/2 , videoHeight/2), (realWidth-videoWidth/2, realHeight-videoHeight/2), boxColor, boxWeight)
+    frame[videoHeight//2:realHeight-videoHeight//2,
+          videoWidth//2:realWidth-videoWidth//2, :] = outputFrame
+    cv2.rectangle(frame, (videoWidth//2, videoHeight//2), (realWidth -
+                                                           videoWidth//2, realHeight-videoHeight//2), boxColor, boxWeight)
     if i > bpmBufferSize:
-        cv2.putText(frame, "BPM: %d" % bpmBuffer.mean(), bpmTextLocation, font, fontScale, fontColor, lineType)
+        cv2.putText(frame, "BPM: %d" % bpmBuffer.mean(),
+                    bpmTextLocation, font, fontScale, fontColor, lineType)
     else:
-        cv2.putText(frame, "Calculating BPM...", loadingTextLocation, font, fontScale, fontColor, lineType)
+        cv2.putText(frame, "Calculating BPM...", loadingTextLocation,
+                    font, fontScale, fontColor, lineType)
 
-    outputVideoWriter.write(frame)
+    # outputVideoWriter.write(frame)
 
     if len(sys.argv) != 2:
         cv2.imshow("Webcam Heart Rate Monitor", frame)
@@ -138,6 +149,6 @@ while (True):
 
 webcam.release()
 cv2.destroyAllWindows()
-outputVideoWriter.release()
-if len(sys.argv) != 2:
-    originalVideoWriter.release()
+# outputVideoWriter.release()
+# if len(sys.argv) != 2:
+#     originalVideoWriter.release()
